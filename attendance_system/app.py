@@ -65,7 +65,7 @@ def line_webhook():
 
 def reply_to_line(user_id, response):
     # 檢查 response 是否是 Flask Response 物件
-    if isinstance(response, Response):
+    if isinstance(response, response):
         # 只提取回應的訊息內容（即純文字或JSON資料）
         response = response.get_data(as_text=True)
 
