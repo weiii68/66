@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>打卡系統</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>打卡賺小菸系統！</h1>
+        <p>我會一直監督你喔！</p>
+        <div id="alert" class="alert" style="display: none;"></div>
+        <!-- 打卡操作按鈕 -->
+        <div class="buttons">
+            <button id="clock-in">開始上班</button>
+            <button id="clock-out">結束上班</button>
+            <button id="check-records">查詢紀錄</button>
+        </div>
+
+        <!-- 顯示紀錄 -->
+        <div id="records"  style="display: none;"></div>
+
+        <!-- 顯示錯誤或成功訊息 -->
+        
+        <!-- 顯示載入中提示 -->
+        <div id="loading">載入中...</div>
+    </div>
+
+    <div id="gift-selection">
+        <h3>選擇要兌換的禮物</h3>
+        <select id="gift-options">
+            <option value="1">一根菸 - 1 積分</option>
+        </select>
+        <button id="redeem-gift">兌換禮物</button>
+    </div>
+    
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

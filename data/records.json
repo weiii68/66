@@ -1,0 +1,46 @@
+{
+    "test": {
+        "records": [
+            {
+                "start": "2025-03-17 22:21:45",
+                "end": "2025-03-18 00:20:07",
+                "total_hours": "1 小時 58 分鐘"
+            }
+        ],
+        "total_worked_minutes": 118.0,
+        "points": 0.0
+    },
+    "cc": {
+        "records": [
+            {
+                "start": "2025-03-18 12:03:04",
+                "end": "2025-03-18 12:03:07",
+                "total_hours": "0 小時 0 分鐘"
+            }
+        ],
+        "total_worked_minutes": 0.0,
+        "points": 0.0
+    },
+    "aerry": {
+        "records": [
+            {
+                "start": "2025-03-18 12:55:19",
+                "end": "未打卡",
+                "total_hours": "未計算"
+            }
+        ],
+        "total_worked_minutes": 0,
+        "points": 0
+    },
+    "U58db2459bc0da0ac11fced6dfb237c69": {
+        "records": [
+            {
+                "start": "2025-03-18 13:34:56",
+                "end": "未打卡",
+                "total_hours": "未計算"
+            }
+        ],
+        "total_worked_minutes": 0,
+        "points": 0
+    }
+}

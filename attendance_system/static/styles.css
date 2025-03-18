@@ -1,0 +1,206 @@
+/* 基本的頁面設置 */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f7e0e0;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background: linear-gradient(135deg, #f7e0e0, #ffb3d9);
+}
+
+h1 {
+    color: #ff5c8d;
+    font-size: 48px;
+    margin-top: 50px;
+}
+
+p {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+/* 按鈕樣式 */
+button {
+    background-color: #ff8f8f;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin: 10px;
+    padding: 12px 24px;
+    font-size: 18px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #ff4d6d;
+    transform: scale(1.03);
+}
+
+button:active {
+    transform: scale(1);
+    background-color: #e94560;
+}
+
+/* 顯示紀錄區域 */
+#records {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 1;
+}
+ 
+
+#records h2 {
+    color: #ff5c8d;
+    font-size: 32px;
+}
+
+/* 提示框樣式 */
+.alert {
+    color: #ff5c8d;
+    font-size: 20px;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ff5c8d;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.alert.show {
+    opacity: 1;
+    display: block;  /* 顯示元素 */
+}
+
+/* 禮品選擇區域 */
+#gift-selection {
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #fff, #ffe6e6);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+#gift-selection select {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 2px solid #ffb3b3;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+#gift-selection select:focus {
+    border-color: #ff5f5f;
+    box-shadow: 0px 4px 8px rgba(255, 95, 95, 0.3);
+}
+
+#current-points {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ff5f5f;
+    margin-top: 10px;
+}
+
+/* 響應式設計 */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 32px;
+    }
+
+    button {
+        width: 90%;
+    }
+
+    #records, #gift-selection {
+        width: 90%;
+        padding: 15px;
+    }
+}
+
+/* 加載動畫 */
+#loading {
+    display: none;
+    font-size: 18px;
+    color: #ff5f5f;
+    font-weight: bold;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+#loading.show {
+    display: block;
+    opacity: 1;
+}
+
+#loading::after {
+    content: "";
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border: 3px solid white;
+    border-top-color: transparent;
+    border-radius: 50%;
+    margin-left: 5px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* 輸入框樣式 */
+input {
+    width: 80%;
+    max-width: 400px;
+    padding: 12px;
+    border: 2px solid #ffb3b3;
+    border-radius: 15px;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input:focus {
+    border-color: #ff5f5f;
+    box-shadow: 0px 4px 8px rgba(255, 95, 95, 0.3);
+}
+
+/* 兌換區塊 */
+.redeem-section {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.redeem-section h2 {
+    color: #ff5f5f;
+    margin-bottom: 15px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
