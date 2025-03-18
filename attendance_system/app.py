@@ -86,10 +86,10 @@ def reply_to_line(user_id, response):
         "Content-Type": "application/json",
         "Authorization": f"Bearer {LINE_ACCESS_TOKEN}"
     }
-#response.get("message", "Unknown response")
+
     payload = {
         "to": user_id,
-        "messages": [{"type": "text", "text": "hELOO WEI"}]
+        "messages": [{"type": "text", "text": response.get("message", "Unknown response")}]
     }
 
     # 進行 POST 請求
