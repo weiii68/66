@@ -65,22 +65,20 @@ def line_webhook():
 
 
 def reply_to_line(user_id, response):
-    # 確保 response 不是 None 並且是字典或字串
-    if response is None:
-        response = {"message": "No response provided"}  # 預設值
-
-    # 如果 response 是字符串，我們把它轉換成字典
-    if isinstance(response, str):
-        response = {"message": response}
-
-    # 如果 response 是元組 (tuple)，則取元組的第一個元素作為訊息
+    # 確保 response 是字典格式，處理 Flask Response 物件
     if isinstance(response, tuple):
         response = {"message": response[0] if response else "Unknown response"}
 
-    # 確保 response 是字典格式
-    if not isinstance(response, dict):
-        response = {"message": "Invalid response format"}
+    if isinstance(response, str):
+        response = {"message": response}
 
+    # 檢查是否是 Flask Response 物件，如果是，提取內容
+    if isinstance(response, dict):
+        message = response.get("message", "Unknown response")
+    else:
+        message = "Unknown response"
+
+    # 確保 message 是字典格式
     url = "https://api.line.me/v2/bot/message/push"
     headers = {
         "Content-Type": "application/json",
@@ -89,11 +87,16 @@ def reply_to_line(user_id, response):
 
     payload = {
         "to": user_id,
-        "messages": [{"type": "text", "text": response.get("message", "Unknown response")}]
+        "messages": [{"type": "text", "text": message}]
     }
 
-    # 進行 POST 請求
-    requests.post(url, headers=headers, json=payload)
+    # 使用 requests 發送 POST 請求
+    try:
+        response = requests.post(url, headers=headers, json=payload)
+        response.raise_for_status()  # 檢查請求是否成功
+    except requests.exceptions.RequestException as e:
+        print(f"Error sending message to LINE: {e}")
+
 # 開始上班 API
 @app.route('/check-in/<username>', methods=['POST'])
 def check_in(username):
