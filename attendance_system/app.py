@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app)  # 啟用 CORS 支援
 
 # 設定 LINE API
-LINE_ACCESS_TOKEN = "d079a07a7f7650b7887db6722cc3385b"
+LINE_ACCESS_TOKEN = "WQnshTcFmLcEq9qnxFQUmz8f2x6GR0J3j0vaRZwJD/8P3ypwA30uO6ONGk4x9KwcBZy36uz4xvVJ5H9HqwhW/98uyJ0sEzPMHThMxrU1rFYR0DYbjdHFdDMKeN/or1kInxYamobbeqqEXVykH2va5wdB04t89/1O/w1cDnyilFU="
 
 # 記錄儲存檔案
 DATA_PATH = "data/records.json"
@@ -63,23 +63,27 @@ def line_webhook():
 
     return "OK"
 
+
 # 傳送回覆到 LINE
-def reply_to_line(user_id, message):
+def reply_to_line(user_id, response):
+    if response is None:
+        response = {"message": "No response provided"}  # 預設值
+
+    if isinstance(response, str):
+        response = {"message": response}  # 確保是字典格式
+
     url = "https://api.line.me/v2/bot/message/push"
     headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {LINE_ACCESS_TOKEN}"
     }
-  # 確保 response 是 JSON 序列化的
-    if isinstance(response, requests.Response):
-        response = response.json()  # 確保是 JSON 格式
-    elif isinstance(response, str):
-        response = {"message": response}  # 轉成字典
+
     payload = {
         "to": user_id,
-        "messages": [{"type": "text", "text": response["message"]}]
+        "messages": [{"type": "text", "text": response.get("message", "Unknown response")}]
     }
 
+    # 進行 POST 請求
     requests.post(url, headers=headers, json=payload)
 
 # 開始上班 API
