@@ -63,23 +63,19 @@ def line_webhook():
 
     return "OK"
 
-
 def reply_to_line(user_id, response):
-    # 檢查 response 的格式
-    if isinstance(response, tuple):
-        response = {"message": response[0] if response else "Unknown response"}
+    # 檢查 response 是否是 Flask Response 物件
+    if isinstance(response, Response):
+        # 只提取回應的訊息內容（即純文字或JSON資料）
+        response = response.get_data(as_text=True)
 
+    # 檢查 response 是否是字典格式
     if isinstance(response, str):
+        # 如果是字串，將其包裝為字典
         response = {"message": response}
 
-    # 打印 response 格式來進行調試
+    # 打印回傳的 response 來做調試
     print(f"Reply to LINE: {response}")
-
-    # 確保 response 是字典格式
-    if isinstance(response, dict):
-        message = response.get("message", "Unknown response")
-    else:
-        message = "Unknown response"
 
     # 準備發送的資料
     url = "https://api.line.me/v2/bot/message/push"
@@ -87,6 +83,12 @@ def reply_to_line(user_id, response):
         "Content-Type": "application/json",
         "Authorization": f"Bearer {LINE_ACCESS_TOKEN}"
     }
+
+    # 確保 response 是字典格式
+    if isinstance(response, dict):
+        message = response.get("message", "Unknown response")
+    else:
+        message = "Unknown response"
 
     payload = {
         "to": user_id,
