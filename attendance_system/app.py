@@ -57,35 +57,43 @@ def line_webhook():
             elif message == "下班":
                 response = clock_out(user_id)
             else:
-                response = "請輸入「打卡」或「下班」來進行操作"
+                response = jsonify({"message": "請輸入「打卡」或「下班」來進行操作"}), 400
 
             reply_to_line(user_id, response)
 
     return "OK"
 
 
-# 傳送回覆到 LINE
 def reply_to_line(user_id, response):
+    # 確保 response 不是 None 並且是字典或字串
     if response is None:
         response = {"message": "No response provided"}  # 預設值
 
+    # 如果 response 是字符串，我們把它轉換成字典
     if isinstance(response, str):
-        response = {"message": response}  # 確保是字典格式
+        response = {"message": response}
+
+    # 如果 response 是元組 (tuple)，則取元組的第一個元素作為訊息
+    if isinstance(response, tuple):
+        response = {"message": response[0] if response else "Unknown response"}
+
+    # 確保 response 是字典格式
+    if not isinstance(response, dict):
+        response = {"message": "Invalid response format"}
 
     url = "https://api.line.me/v2/bot/message/push"
     headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {LINE_ACCESS_TOKEN}"
     }
-
+#response.get("message", "Unknown response")
     payload = {
         "to": user_id,
-        "messages": [{"type": "text", "text": response.get("message", "Unknown response")}]
+        "messages": [{"type": "text", "text": "hELOO WEI"}]
     }
 
     # 進行 POST 請求
     requests.post(url, headers=headers, json=payload)
-
 # 開始上班 API
 @app.route('/check-in/<username>', methods=['POST'])
 def check_in(username):
