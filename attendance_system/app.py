@@ -53,28 +53,47 @@ def line_webhook():
             message = event["message"]["text"].strip()
             print(f"user_id: {user_id}")
             print(f"message: {message}")
+            
+            # 獲取用戶的名稱
+            user_name = get_user_name(user_id)
+            print(f"user_name: {user_name}")  # 顯示名稱
+            
             if message == "打卡":
                 response = check_in(user_id)
             elif message == "下班":
                 response = clock_out(user_id)
             else:
                 response = jsonify({"message": "請輸入「打卡」或「下班」來進行操作"}), 400
+
             jsonn = response[0].get_json()
             reply_to_line(user_id, jsonn.get("message"))
 
     return "OK"
 
- 
-def reply_to_line(user_id, response):
-    
+def get_user_name(user_id):
+    # 調用 LINE API 獲取用戶資料
+    url = f"https://api.line.me/v2/bot/profile/{user_id}"
+    headers = {
+        "Authorization": f"Bearer {LINE_ACCESS_TOKEN}"
+    }
 
+    response = requests.get(url, headers=headers)
+    
+    if response.status_code == 200:
+        user_profile = response.json()
+        return user_profile.get("displayName")  # 返回顯示名稱
+    else:
+        print(f"Error fetching user profile: {response.status_code}")
+        return "Unknown User"
+
+def reply_to_line(user_id, response):
     # 準備發送的資料
     url = "https://api.line.me/v2/bot/message/push"
     headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {LINE_ACCESS_TOKEN}"
     }
- 
+
     message = response
 
     payload = {
@@ -88,7 +107,6 @@ def reply_to_line(user_id, response):
         line_response.raise_for_status()  # 檢查請求是否成功
     except requests.exceptions.RequestException as e:
         print(f"Error sending message to LINE: {e}")
-
 
 # 開始上班 API
 @app.route('/check-in/<username>', methods=['POST'])
