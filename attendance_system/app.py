@@ -58,7 +58,7 @@ def line_webhook():
                 response = clock_out(user_id)
             else:
                 response = jsonify({"message": "請輸入「打卡」或「下班」來進行操作"}), 400
-
+            print(f"Reply to LINE: {response}")
             reply_to_line(user_id, response)
 
     return "OK"
