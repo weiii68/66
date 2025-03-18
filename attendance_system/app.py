@@ -70,10 +70,16 @@ def reply_to_line(user_id, message):
         "Content-Type": "application/json",
         "Authorization": f"Bearer {LINE_ACCESS_TOKEN}"
     }
+  # 確保 response 是 JSON 序列化的
+    if isinstance(response, requests.Response):
+        response = response.json()  # 確保是 JSON 格式
+    elif isinstance(response, str):
+        response = {"message": response}  # 轉成字典
     payload = {
         "to": user_id,
-        "messages": [{"type": "text", "text": message}]
+        "messages": [{"type": "text", "text": response["message"]}]
     }
+
     requests.post(url, headers=headers, json=payload)
 
 # 開始上班 API
