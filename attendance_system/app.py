@@ -63,19 +63,22 @@ def line_webhook():
 
     return "OK"
 
+ 
 def reply_to_line(user_id, response):
     # 檢查 response 是否是 Flask Response 物件
     if isinstance(response, Response):
         # 只提取回應的訊息內容（即純文字或JSON資料）
-        response = response.get_data(as_text=True)
+        response_data = response.get_data(as_text=True)
+    else:
+        response_data = response  # 若不是 Response 物件，則直接使用 response
 
-    # 檢查 response 是否是字典格式
-    if isinstance(response, str):
+    # 檢查 response_data 是否為字典格式
+    if isinstance(response_data, str):
         # 如果是字串，將其包裝為字典
-        response = {"message": response}
+        response_data = {"message": response_data}
 
     # 打印回傳的 response 來做調試
-    print(f"Reply to LINE: {response}")
+    print(f"Reply to LINE: {response_data}")
 
     # 準備發送的資料
     url = "https://api.line.me/v2/bot/message/push"
@@ -84,9 +87,9 @@ def reply_to_line(user_id, response):
         "Authorization": f"Bearer {LINE_ACCESS_TOKEN}"
     }
 
-    # 確保 response 是字典格式
-    if isinstance(response, dict):
-        message = response.get("message", "Unknown response")
+    # 確保 response_data 是字典格式
+    if isinstance(response_data, dict):
+        message = response_data.get("message", "Unknown response")
     else:
         message = "Unknown response"
 
@@ -97,8 +100,8 @@ def reply_to_line(user_id, response):
 
     try:
         # 發送 POST 請求
-        response = requests.post(url, headers=headers, json=payload)
-        response.raise_for_status()  # 檢查請求是否成功
+        line_response = requests.post(url, headers=headers, json=payload)
+        line_response.raise_for_status()  # 檢查請求是否成功
     except requests.exceptions.RequestException as e:
         print(f"Error sending message to LINE: {e}")
 
