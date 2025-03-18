@@ -59,27 +59,14 @@ def line_webhook():
                 response = clock_out(user_id)
             else:
                 response = jsonify({"message": "請輸入「打卡」或「下班」來進行操作"}), 400
-            print(f"Reply to LINE: {response}")
-            reply_to_line(user_id, response)
+            jsonn = response[0].get_json()
+            reply_to_line(user_id, jsonn.get("message"))
 
     return "OK"
 
  
 def reply_to_line(user_id, response):
-    # 檢查 response 是否是 Flask Response 物件
-    if isinstance(response, Response):
-        # 只提取回應的訊息內容（即純文字或JSON資料）
-        response_data = response.get_data(as_text=True)
-    else:
-        response_data = response  # 若不是 Response 物件，則直接使用 response
-
-    # 檢查 response_data 是否為字典格式
-    if isinstance(response_data, str):
-        # 如果是字串，將其包裝為字典
-        response_data = {"message": response_data}
-
-    # 打印回傳的 response 來做調試
-    print(f"Reply to LINE: {response_data}")
+    
 
     # 準備發送的資料
     url = "https://api.line.me/v2/bot/message/push"
@@ -87,12 +74,8 @@ def reply_to_line(user_id, response):
         "Content-Type": "application/json",
         "Authorization": f"Bearer {LINE_ACCESS_TOKEN}"
     }
-
-    # 確保 response_data 是字典格式
-    if isinstance(response_data, dict):
-        message = response_data.get("message", "Unknown response")
-    else:
-        message = "Unknown response"
+ 
+    message = response
 
     payload = {
         "to": user_id,
