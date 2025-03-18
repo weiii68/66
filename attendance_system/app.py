@@ -51,7 +51,8 @@ def line_webhook():
         if event["type"] == "message":
             user_id = event["source"]["userId"]
             message = event["message"]["text"].strip()
-
+            print(f"user_id: {user_id}")
+            print(f"message: {message}")
             if message == "打卡":
                 response = check_in(user_id)
             elif message == "下班":
