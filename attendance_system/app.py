@@ -56,6 +56,7 @@ def line_webhook():
             
             # 獲取用戶的名稱
             user_name = get_user_name(user_id)
+            user_id = user_name
             print(f"user_name: {user_name}")  # 顯示名稱
             
             if message == "打卡":
