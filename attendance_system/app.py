@@ -56,13 +56,13 @@ def line_webhook():
             
             # 獲取用戶的名稱
             user_name = get_user_name(user_id)
-            user_id = user_name
+           
             print(f"user_name: {user_name}")  # 顯示名稱
             
             if message == "打卡":
-                response = check_in(user_id)
+                response = check_in(user_name)
             elif message == "下班":
-                response = clock_out(user_id)
+                response = clock_out(user_name)
             else:
                 response = jsonify({"message": "請輸入「打卡」或「下班」來進行操作"}), 400
 
