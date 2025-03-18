@@ -4,7 +4,7 @@ import os
 from datetime import datetime, timedelta
 from flask_cors import CORS
 import requests  # 確保 requests 可用
-
+from flask import Response
 app = Flask(__name__)
 CORS(app)  # 啟用 CORS 支援
 
@@ -65,7 +65,7 @@ def line_webhook():
 
 def reply_to_line(user_id, response):
     # 檢查 response 是否是 Flask Response 物件
-    if isinstance(response, response):
+    if isinstance(response, Response):
         # 只提取回應的訊息內容（即純文字或JSON資料）
         response = response.get_data(as_text=True)
 
