@@ -174,10 +174,21 @@ def clock_out(username):
 
         last_record["total_hours"] = f"{int(total_hours)} 小時 {int(total_minutes)} 分鐘"
 
-        # 更新使用者的累積工時
+        # ✅ **修正這裡，避免工時加倍**
         db[username]["total_worked_minutes"] += total_minutes_all
-        db[username]["points"] = (db[username]["total_worked_minutes"] // 240) - db[username].get("redeemed_points", 0)
 
+        # ✅ **確保 redeemed_points 存在**
+        if "redeemed_points" not in db[username]:
+            db[username]["redeemed_points"] = 0
+
+        # **修正積分計算**
+        total_points = db[username]["total_worked_minutes"] // 240
+
+        # ✅ **確保積分不會變成負數**
+        if db[username]["redeemed_points"] > total_points:
+            db[username]["redeemed_points"] = total_points  # 限制兌換積分
+
+        db[username]["points"] = total_points - db[username]["redeemed_points"]
 
         if not write_data(db):
             return jsonify({"message": "儲存資料時發生錯誤"}), 500
@@ -188,6 +199,7 @@ def clock_out(username):
 
     except Exception as e:
         return jsonify({"message": f"發生錯誤: {str(e)}"}), 500
+
 
 # 查詢打卡紀錄 API
 @app.route('/records/<username>', methods=['GET'])
@@ -229,29 +241,28 @@ def get_points(username):
         return jsonify({"message": "沒有找到此使用者的紀錄"}), 404
     return jsonify({"points": db[username].get("points", 0)})
 
-# 兌換獎勵 API
 @app.route('/redeem/<username>/<int:points>', methods=['POST'])
 def redeem_gift(username, points):
     db = read_data()
     if username not in db:
         return jsonify({"message": "使用者不存在"}), 400
 
-    # 確保有紀錄「已兌換」的積分
-    if "redeemed_points" not in db[username]:
-        db[username]["redeemed_points"] = 0
-
-    available_points = (db[username]["total_worked_minutes"] // 240) - db[username]["redeemed_points"]
-
-    if available_points < points:
+    if db[username]['points'] < points:
         return jsonify({"message": "積分不足，無法兌換獎勵"}), 400
 
-    # 記錄兌換過的積分
+    # ✅ 記錄已兌換的積分
+    if "redeemed_points" not in db[username]:
+        db[username]["redeemed_points"] = 0
     db[username]["redeemed_points"] += points
+
+    # ✅ 更新剩餘積分
+    db[username]['points'] -= points
 
     if not write_data(db):
         return jsonify({"message": "儲存資料時發生錯誤"}), 500
 
     return jsonify({"message": f"成功兌換獎勵，扣除 {points} 積分！"}), 200
+
 
 # 首頁
 @app.route('/')
