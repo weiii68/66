@@ -176,7 +176,8 @@ def clock_out(username):
 
         # 更新使用者的累積工時
         db[username]["total_worked_minutes"] += total_minutes_all
-        db[username]["points"] = db[username]["total_worked_minutes"] // 240  # 每 4 小時得 1 分
+        db[username]["points"] = (db[username]["total_worked_minutes"] // 240) - db[username].get("redeemed_points", 0)
+
 
         if not write_data(db):
             return jsonify({"message": "儲存資料時發生錯誤"}), 500
@@ -235,10 +236,18 @@ def redeem_gift(username, points):
     if username not in db:
         return jsonify({"message": "使用者不存在"}), 400
 
-    if db[username]['points'] < points:
+    # 確保有紀錄「已兌換」的積分
+    if "redeemed_points" not in db[username]:
+        db[username]["redeemed_points"] = 0
+
+    available_points = (db[username]["total_worked_minutes"] // 240) - db[username]["redeemed_points"]
+
+    if available_points < points:
         return jsonify({"message": "積分不足，無法兌換獎勵"}), 400
 
-    db[username]['points'] -= points
+    # 記錄兌換過的積分
+    db[username]["redeemed_points"] += points
+
     if not write_data(db):
         return jsonify({"message": "儲存資料時發生錯誤"}), 500
 
