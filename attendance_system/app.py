@@ -174,72 +174,100 @@ def clock_out(username):
 
         last_record["total_hours"] = f"{int(total_hours)} 小時 {int(total_minutes)} 分鐘"
 
-        # ✅ **修正這裡，避免工時加倍**
+        # 更新使用者的累積工時
         db[username]["total_worked_minutes"] += total_minutes_all
 
-        # ✅ **確保 redeemed_points 存在**
+        # ✅ **這裡修正：只增加新的工時，不重新計算積分**
         if "redeemed_points" not in db[username]:
             db[username]["redeemed_points"] = 0
 
-        # **修正積分計算**
+        # **原始積分計算方式**
         total_points = db[username]["total_worked_minutes"] // 240
 
         # ✅ **確保積分不會變成負數**
-        if db[username]["redeemed_points"] > total_points:
-            db[username]["redeemed_points"] = total_points  # 限制兌換積分
+        db[username]["points"] = max(total_points - db[username]["redeemed_points"], 0)
 
-        db[username]["points"] = total_points - db[username]["redeemed_points"]
+        # ✅ **計算距離下一個積分還差多少分鐘**
+        minutes_to_next_point = 240 - (db[username]["total_worked_minutes"] % 240)
 
         if not write_data(db):
             return jsonify({"message": "儲存資料時發生錯誤"}), 500
 
         return jsonify({
-            "message": f"{username} 下班成功，時間：{last_record['end']}，總工時：{last_record['total_hours']}，累積工時：{db[username]['total_worked_minutes']} 分鐘（{db[username]['total_worked_minutes'] / 60:.2f} 小時），目前積分：{db[username]['points']}"
+            "message": f"{username} 下班成功，時間：{last_record['end']}，總工時：{last_record['total_hours']}，\n"
+                       f"累積工時：{db[username]['total_worked_minutes']} 分鐘（{db[username]['total_worked_minutes'] / 60:.2f} 小時）\n"
+                       f"目前積分：{db[username]['points']}，\n"
+                       f"距離下一個積分還差 {minutes_to_next_point} 分鐘"
         }), 200
 
     except Exception as e:
         return jsonify({"message": f"發生錯誤: {str(e)}"}), 500
 
 
+
 # 查詢打卡紀錄 API
 @app.route('/records/<username>', methods=['GET'])
 def get_records(username):
     try:
-        db = read_data()
+        db = read_data ()
 
         if username not in db or not db[username]:
-            return jsonify({"message": "沒有此使用者的打卡紀錄", "records": [], "points": 0}), 404
+            return jsonify({
+                "message": "沒有此使用者的打卡紀錄",
+                "records": [],
+                "points": 0,
+                "total_worked_time": "0 小時 0 分鐘",
+                "minutes_to_next_point": 240
+            }), 404
 
-        user_records = db[username]
+        user_data = db[username]
+        records = user_data.get("records", [])
+        total_worked_minutes = user_data.get("total_worked_minutes", 0)
+        points = user_data.get("points", 0)
 
-        formatted_records = []
-        for date, records in user_records.items():
-            if isinstance(records, list):  # 只處理打卡紀錄，排除 "points"
-                for record in records:
-                    if isinstance(record, dict):
-                        formatted_records.append({
-                            "date": date,
-                            "start": record.get("start", "未打卡"),
-                            "end": record.get("end", "未打卡"),
-                            "total_hours": record.get("total_hours", "未計算")
-                        })
+        # 計算累積總工時
+        total_hours = total_worked_minutes // 60
+        total_minutes = total_worked_minutes % 60
+        total_worked_time = f"{total_hours} 小時 {total_minutes} 分鐘"
 
-        points = user_records.get("points", 0)  # 讀取積分
+        # 計算距離下一個積分還差多少分鐘
+        minutes_to_next_point = 240 - (db[username]["total_worked_minutes"] % 240)
 
-        return jsonify({"records": formatted_records, "points": points})
-
+        # 確保積分計算正確
+        print(f"User {username} total worked minutes: {total_worked_minutes}")
+        print(f"Minutes to next point: {minutes_to_next_point}")
+       
+        return jsonify({
+            "records": records,
+            "points": points,
+            "total_worked_time": total_worked_time,
+            "minutes_to_next_point": minutes_to_next_point
+        })
     except Exception as e:
         return jsonify({"message": f"查詢紀錄發生錯誤: {str(e)}"}), 500
 
+   
 
 
-# 查詢積分 API
+
+
+
 @app.route('/points/<username>', methods=['GET'])
 def get_points(username):
     db = read_data()
     if username not in db:
         return jsonify({"message": "沒有找到此使用者的紀錄"}), 404
-    return jsonify({"points": db[username].get("points", 0)})
+    
+    # 獲取使用者的積分與總工時
+    user_data = db[username]
+    points = user_data.get("points", 0)
+    total_worked_minutes = user_data.get("total_worked_minutes", 0)
+
+    # 返回積分與總工時
+    return jsonify({
+        "points": points,
+        "total_worked_minutes": total_worked_minutes
+    })
 
 @app.route('/redeem/<username>/<int:points>', methods=['POST'])
 def redeem_gift(username, points):

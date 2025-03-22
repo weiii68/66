@@ -11,6 +11,8 @@
         <h1>打卡賺小菸系統！</h1>
         <p>我會一直監督你喔！</p>
         <div id="alert" class="alert" style="display: none;"></div>
+ 
+
         <!-- 打卡操作按鈕 -->
         <div class="buttons">
             <button id="clock-in">開始上班</button>
@@ -19,14 +21,13 @@
         </div>
 
         <!-- 顯示紀錄 -->
-        <div id="records"  style="display: none;"></div>
+        <div id="records" style="display: none;"></div>
 
-        <!-- 顯示錯誤或成功訊息 -->
-        
         <!-- 顯示載入中提示 -->
-        <div id="loading">載入中...</div>
+        <div id="loading" style="display: none;">載入中...</div>
     </div>
 
+    <!-- 兌換禮物區塊 -->
     <div id="gift-selection">
         <h3>選擇要兌換的禮物</h3>
         <select id="gift-options">
@@ -34,7 +35,6 @@
         </select>
         <button id="redeem-gift">兌換禮物</button>
     </div>
-    
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
