@@ -1,206 +1,304 @@
-/* 基本的頁面設置 */
+/* 基本樣式 */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f7e0e0;
-    color: #333;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #dfa6bd; /* 粉紅色背景 */
     margin: 0;
     padding: 0;
-    text-align: center;
-    background: linear-gradient(135deg, #f7e0e0, #ffb3d9);
-}
-
-h1 {
-    color: #ff5c8d;
-    font-size: 48px;
-    margin-top: 50px;
-}
-
-p {
-    font-size: 18px;
-    color: #555;
-    margin-bottom: 30px;
-}
-
-/* 按鈕樣式 */
-button {
-    background-color: #ff8f8f;
-    color: white;
-    border: none;
-    cursor: pointer;
-    margin: 10px;
-    padding: 12px 24px;
-    font-size: 18px;
-    border-radius: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-}
-
-button:hover {
-    background-color: #ff4d6d;
-    transform: scale(1.03);
-}
-
-button:active {
-    transform: scale(1);
-    background-color: #e94560;
-}
-
-/* 顯示紀錄區域 */
-#records {
-    margin-top: 40px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    opacity: 1;
-}
- 
-
-#records h2 {
-    color: #ff5c8d;
-    font-size: 32px;
-}
-
-/* 提示框樣式 */
-.alert {
-    color: #ff5c8d;
-    font-size: 20px;
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border: 1px solid #ff5c8d;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-}
-
-.alert.show {
-    opacity: 1;
-    display: block;  /* 顯示元素 */
-}
-
-/* 禮品選擇區域 */
-#gift-selection {
-    margin-top: 30px;
-    padding: 20px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, #fff, #ffe6e6);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-#gift-selection select {
-    padding: 8px;
-    font-size: 16px;
-    border-radius: 8px;
-    border: 2px solid #ffb3b3;
-    outline: none;
-    transition: all 0.3s ease;
-}
-
-#gift-selection select:focus {
-    border-color: #ff5f5f;
-    box-shadow: 0px 4px 8px rgba(255, 95, 95, 0.3);
-}
-
-#current-points {
-    font-size: 20px;
-    font-weight: bold;
-    color: #ff5f5f;
-    margin-top: 10px;
-}
-
-/* 響應式設計 */
-@media (max-width: 600px) {
-    h1 {
-        font-size: 32px;
-    }
-
-    button {
-        width: 90%;
-    }
-
-    #records, #gift-selection {
-        width: 90%;
-        padding: 15px;
-    }
-}
-
-/* 加載動畫 */
-#loading {
-    display: none;
-    font-size: 18px;
-    color: #ff5f5f;
-    font-weight: bold;
-    text-align: center;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-}
-
-#loading.show {
-    display: block;
-    opacity: 1;
-}
-
-#loading::after {
-    content: "";
-    display: inline-block;
-    width: 15px;
-    height: 15px;
-    border: 3px solid white;
-    border-top-color: transparent;
-    border-radius: 50%;
-    margin-left: 5px;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-/* 輸入框樣式 */
-input {
-    width: 80%;
-    max-width: 400px;
-    padding: 12px;
-    border: 2px solid #ffb3b3;
-    border-radius: 15px;
-    font-size: 16px;
-    outline: none;
-    transition: all 0.3s ease;
-}
-
-input:focus {
-    border-color: #ff5f5f;
-    box-shadow: 0px 4px 8px rgba(255, 95, 95, 0.3);
-}
-
-/* 兌換區塊 */
-.redeem-section {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-.redeem-section h2 {
-    color: #ff5f5f;
-    margin-bottom: 15px;
 }
 
 .container {
+    margin-top: 20px;
+}
+
+h1 {
+    color: #ff4d94; /* 粉紅色 */
+    font-size: 2.5em;
+    font-weight: bold;
+}
+
+p {
+    color: #ff4d94;
+    font-size: 1.2em;
+}
+
+/* 監督 GIF 動畫 */
+.animated-image {
+    width: 30%;  /* 調整大小為原來的30% */
+    max-width: 300px;  /* 設定最大寬度，避免過大 */
+    margin: 20px auto;
+    display: block;
+}
+
+/* 眼睛動畫 */
+.eyes {
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    gap: 20px;
-    max-width: 800px;
+    margin-top: 20px;
+}
+
+.eye {
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border-radius: 50%;
+    margin: 0 20px;
+    position: relative;
+    border: 3px solid #ff4d94; /* 粉紅色邊框 */
+}
+
+.pupil {
+    width: 20px;
+    height: 20px;
+    background-color: black;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* 驚嚇彈出視窗 */
+.scary-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #ff4d94;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #ff4d94;
+}
+
+.scary-popup.show {
+    display: block;
+}
+
+/* 鬼魂動畫 */
+.ghost {
+    display: none;
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1000px;  /* 調整鬼魂 GIF 的大小 */
+    height: auto;  /* 高度自動適應 */
+    animation: ghostAnimation 5s infinite ease-in-out;
+}
+
+.ghost.animate {
+    animation: ghostAnimation 5s infinite ease-in-out;
+}
+
+@keyframes ghostAnimation {
+    0% {
+        top: 20%;
+        opacity: 0.8;
+    }
+    50% {
+        top: 40%;
+        opacity: 1;
+    }
+    100% {
+        top: 20%;
+        opacity: 0.8;
+    }
+}
+
+/* 驚嚇文字的過渡效果 */
+.scary-text {
+    font-size: 24px;
+    color: red;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 1;
+    transition: opacity 1s ease-out;
+}
+
+.shocked {
+    background-color: #ffcccc; /* 淺粉紅色背景 */
+}
+
+/* 按鈕樣式 */
+.buttons {
+    margin-top: 20px;
+}
+
+.buttons button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 10px;
+    cursor: pointer;
+    background-color: #ff4d94; /* 粉紅色按鈕 */
+    border: none;
+    border-radius: 5px;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.buttons button:hover {
+    background-color: #ff1f6d; /* 按鈕懸浮變色 */
+}
+
+#gift-selection {
+    margin-top: 20px;
+    background-color: #ffcccc; /* 粉紅色背景 */
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #ff4d94;
+}
+
+#gift-options {
+    padding: 10px;
+    margin-right: 10px;
+    font-size: 1em;
+}
+
+#redeem-gift {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #ff4d94;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#redeem-gift:hover {
+    background-color: #ff1f6d; /* 按鈕懸浮變色 */
+}
+
+/* 彈出視窗樣式 */
+.scary-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    font-size: 24px;
+    text-align: center;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.scary-popup.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* 文字動畫 */
+.scary-text {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 50px;
+    color: #971e1e;
+    font-weight: bold;
+    text-shadow: 0 0 20px rgba(255, 0, 0, 0.6), 0 0 30px rgba(255, 0, 0, 0.7);
+    animation: shake 0.2s infinite alternate, glow 1s infinite alternate;
+}
+
+@keyframes shake {
+    0% { transform: translateX(-50%) rotate(0deg); }
+    50% { transform: translateX(-50%) rotate(10deg); }
+    100% { transform: translateX(-50%) rotate(-10deg); }
+}
+
+@keyframes glow {
+    0% { text-shadow: 0 0 10px rgba(255, 0, 0, 0.6), 0 0 20px rgba(255, 0, 0, 0.7); }
+    50% { text-shadow: 0 0 20px rgba(255, 0, 0, 0.6), 0 0 30px rgba(255, 0, 0, 0.7); }
+    100% { text-shadow: 0 0 10px rgba(255, 0, 0, 0.6), 0 0 20px rgba(255, 0, 0, 0.7); }
+}
+
+/* 背景顏色變換 */
+body.shocked {
+    animation: backgroundChange 1s infinite alternate;
+}
+
+@keyframes backgroundChange {
+    0% { background: linear-gradient(to right, #fc3e3e, #ff6969); }
+    50% { background: linear-gradient(to right, #ffc96b, #eb6060); }
+    100% { background: linear-gradient(to right, #d190d1, #fe60fe); }
+}
+
+/* 顯示紀錄區塊 */
+#records {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f9d3e0;  
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 打卡紀錄項目樣式 */
+.record-item {
+    background-color: #ff4d94;  /* 粉紅色背景 */
+    color: rgb(225, 155, 177);
+    font-size: 1.2em;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);  /* 加入陰影效果 */
+    transition: background-color 0.3s ease;
+}
+
+/* 鼠標懸停時的顏色變化 */
+.record-item:hover {
+    background-color: #ff1f6d;  /* 更加強烈的顏色 */
+}
+
+/* 顯示打卡紀錄時的動畫效果 */
+@keyframes highlightAnimation {
+    0% { background-color: #ff4d94; }
+    50% { background-color: #ff1f6d; }
+    100% { background-color: #ff4d94; }
+}
+
+.record-item {
+    animation: highlightAnimation 2s ease-out;  /* 加上動畫效果 */
+}
+/* 提示框的基本樣式 */
+.alert {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
     margin: 0 auto;
-    padding: 20px 0;
+    z-index: 9999;
+    transition: opacity 0.5s ease-out;
+}
+
+/* 成功提示框樣式 */
+.alert.success {
+    background-color: #ffdb79;
+    color: #995104;
+}
+
+/* 錯誤提示框樣式 */
+.alert.error {
+    background-color: #f47781;
+    color: #d10015;
+}
+
+/* 使提示框進場和退場的動畫 */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
 }

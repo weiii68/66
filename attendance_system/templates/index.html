@@ -10,8 +10,19 @@
     <div class="container">
         <h1>打卡賺小菸系統！</h1>
         <p>我會一直監督你喔！</p>
-        <div id="alert" class="alert" style="display: none;"></div>
- 
+
+        <!-- 監督 GIF 動畫 -->
+        <img src="{{ url_for('static', filename='66.gif') }}" alt="監督動畫" class="animated-image">
+
+        <!-- 監督的眼睛 -->
+        <div class="eyes">
+            <div class="eye">
+                <div class="pupil"></div>
+            </div>
+            <div class="eye">
+                <div class="pupil"></div>
+            </div>
+        </div>
 
         <!-- 打卡操作按鈕 -->
         <div class="buttons">
@@ -20,8 +31,15 @@
             <button id="check-records">查詢紀錄</button>
         </div>
 
-        <!-- 顯示紀錄 -->
-        <div id="records" style="display: none;"></div>
+        <!-- 顯示打卡紀錄 -->
+        <div id="records" style="display: none;">
+            <div class="record-item">
+                <p>打卡紀錄 1: 開始上班 - 2025-03-23 09:00</p>
+            </div>
+            <div class="record-item">
+                <p>打卡紀錄 2: 結束上班 - 2025-03-23 18:00</p>
+            </div>
+        </div>
 
         <!-- 顯示載入中提示 -->
         <div id="loading" style="display: none;">載入中...</div>
@@ -35,6 +53,15 @@
         </select>
         <button id="redeem-gift">兌換禮物</button>
     </div>
+
+    <!-- 驚嚇彈出視窗 -->
+    <div class="scary-popup" id="scaryPopup">
+        <h2>你被監控了！</h2>
+        <p>快點關掉！</p>
+    </div>
+
+    <!-- 鬼魂動畫 -->
+    <img id="ghost" src="{{ url_for('static', filename='ghost.gif') }}" class="ghost">
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>

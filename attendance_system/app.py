@@ -247,11 +247,6 @@ def get_records(username):
         return jsonify({"message": f"查詢紀錄發生錯誤: {str(e)}"}), 500
 
    
-
-
-
-
-
 @app.route('/points/<username>', methods=['GET'])
 def get_points(username):
     db = read_data()
