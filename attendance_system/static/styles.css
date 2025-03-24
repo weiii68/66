@@ -1,246 +1,315 @@
-/* 基本樣式 */
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #dfa6bd; /* 粉紅色背景 */
-    margin: 0;
-    padding: 0;
-}
-
-.container {
-    margin-top: 20px;
-}
-
-h1 {
-    color: #ff4d94; /* 粉紅色 */
-    font-size: 2.5em;
-    font-weight: bold;
-}
-
-p {
-    color: #ff4d94;
-    font-size: 1.2em;
-}
-
-/* 監督 GIF 動畫 */
-.animated-image {
-    width: 30%;  /* 調整大小為原來的30% */
-    max-width: 300px;  /* 設定最大寬度，避免過大 */
-    margin: 20px auto;
-    display: block;
-}
-
-/* 眼睛動畫 */
-.eyes {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.eye {
-    width: 50px;
-    height: 50px;
-    background-color: white;
-    border-radius: 50%;
-    margin: 0 20px;
-    position: relative;
-    border: 3px solid #ff4d94; /* 粉紅色邊框 */
-}
-
-.pupil {
-    width: 20px;
-    height: 20px;
-    background-color: black;
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-/* 驚嚇彈出視窗 */
-.scary-popup {
-    display: none;
+/* 背景圖片 */
+.background-image {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(255, 255, 255, 0.9);
-    color: #ff4d94;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/static/creepy-background.webp'); /* 確保檔名和路徑正確 */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    z-index: -1; /* 讓背景不會蓋住其他元素 */
+    opacity: 0.6;  /* 讓背景稍微透明，增加文字清晰度 */
+}
+
+@keyframes mist {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+.background-image {
+    animation: mist 30s infinite linear;
+}
+
+
+/* 增加背景遮罩 */
+.container {
+    position: relative;
+    z-index: 10; /* 確保容器顯示在背景上方 */
+    background-color: rgba(0, 0, 0, 0.4);  /* 背景遮罩，讓文字更突出 */
     padding: 20px;
     border-radius: 10px;
-    border: 2px solid #ff4d94;
 }
 
-.scary-popup.show {
-    display: block;
-}
-
-/* 鬼魂動畫 */
-.ghost {
+/* 恐怖提示視窗 */
+.scary-popup {
     display: none;
     position: fixed;
     top: 20%;
     left: 50%;
-    transform: translateX(-50%);
-    width: 1000px;  /* 調整鬼魂 GIF 的大小 */
-    height: auto;  /* 高度自動適應 */
-    animation: ghostAnimation 5s infinite ease-in-out;
+    transform: translateX(-50%) translateY(-30px);
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 40px;  /* 增加內邊距，讓視窗變大 */
+    color: white;
+    font-size: 32px;  /* 增加字體大小 */
+    border-radius: 10px;
+    z-index: 10000;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8); /* 增加陰影 */
+    width: 60%;  /* 增加寬度，讓視窗變大 */
+    max-width: 600px;  /* 設定最大寬度 */
+    text-align: center;  /* 讓文字置中 */
 }
 
-.ghost.animate {
-    animation: ghostAnimation 5s infinite ease-in-out;
+/* 顯示並啟動過渡動畫 */
+.scary-popup.show {
+    display: block;
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
 }
 
-@keyframes ghostAnimation {
+/* 發光效果 */
+.scary-popup {
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.8); /* 發光邊緣 */
+}
+
+/* 增加震動效果 */
+@keyframes shake {
+    0% { transform: translateX(-50%) translateY(-30px); }
+    25% { transform: translateX(-50%) translateY(-20px); }
+    50% { transform: translateX(-50%) translateY(-30px); }
+    75% { transform: translateX(-50%) translateY(-20px); }
+    100% { transform: translateX(-50%) translateY(-30px); }
+}
+
+.scary-popup.shake {
+    animation: shake 0.5s ease-in-out infinite;
+}
+
+/* 透明背景容器 */
+.container {
+    margin-top: 20px;
+    z-index: 10; /* 確保容器顯示在其他元素上方 */
+    text-align: center; /* 讓內容置中 */
+    background-color: transparent;  /* 使背景透明，顯示原本背景 */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7); /* 增加陰影效果 */
+}
+
+
+h1 {
+    color: #ff1f6d; /* 恐怖紅色 */
+    font-size: 4em;
+    font-weight: bold;
+    font-family: 'Creepster', cursive; /* 使用恐怖風格的字體 */
+    text-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.7), 0 0 60px rgba(0, 0, 0, 0.9), 0 0 80px rgba(0, 0, 0, 1); /* 改變陰影顏色和模糊度 */
+    animation: glowing-text 1.5s infinite alternate, shake 0.5s infinite; /* 發光和顫抖動畫 */
+}
+
+/* 發光效果 */
+@keyframes glowing-text {
     0% {
-        top: 20%;
-        opacity: 0.8;
+        color: #ff1f6d;
+        text-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.7);
+    }
+    25% {
+        color: #ffeb3b;
+        text-shadow: 0 0 20px rgba(255, 255, 0, 0.8), 0 0 30px rgba(255, 255, 0, 0.7);
     }
     50% {
-        top: 40%;
-        opacity: 1;
+        color: #4caf50;
+        text-shadow: 0 0 20px rgba(0, 255, 0, 0.8), 0 0 30px rgba(0, 255, 0, 0.7);
+    }
+    75% {
+        color: #ff5722;
+        text-shadow: 0 0 20px rgba(255, 87, 34, 0.8), 0 0 30px rgba(255, 87, 34, 0.7);
     }
     100% {
-        top: 20%;
-        opacity: 0.8;
+        color: #ff1f6d;
+        text-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.7);
     }
 }
 
-/* 驚嚇文字的過渡效果 */
-.scary-text {
-    font-size: 24px;
-    color: red;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 1;
-    transition: opacity 1s ease-out;
+
+/* 顫抖效果 */
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
 }
 
-.shocked {
-    background-color: #ffcccc; /* 淺粉紅色背景 */
+
+/* 按鈕容器 */
+.buttons {
+    display: flex;
+    flex-direction: column;  /* 按鈕垂直排列 */
+    gap: 20px;  /* 按鈕間距 */
+    align-items: center;  /* 讓按鈕居中 */
 }
 
 /* 按鈕樣式 */
-.buttons {
-    margin-top: 20px;
-}
-
 .buttons button {
-    padding: 10px 20px;
-    font-size: 16px;
-    margin: 10px;
-    cursor: pointer;
-    background-color: #ff4d94; /* 粉紅色按鈕 */
+    padding: 15px 25px;  /* 增加內邊距，讓按鈕更大 */
+    font-size: 18px;  /* 調整字體大小 */
+    background: linear-gradient(135deg, #ff1f6d, #990000);  /* 增強的血紅漸層 */
     border: none;
-    border-radius: 5px;
+    border-radius: 50px;  /* 使用圓角讓按鈕看起來更柔和 */
     color: white;
-    transition: background-color 0.3s ease;
+    cursor: pointer;
+    transition: all 0.3s ease;  /* 使所有變化平滑過渡 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);  /* 添加陰影效果 */
 }
 
 .buttons button:hover {
-    background-color: #ff1f6d; /* 按鈕懸浮變色 */
+    transform: translateY(-7px) scale(1.05); /* 微微放大和上移 */
+    box-shadow: 0 8px 20px rgba(255, 0, 0, 0.7);
+    animation: shake 0.2s ease; /* 點擊時輕微抖動 */
 }
 
+
+.buttons button:active {
+    transform: translateY(2px);  /* 當按鈕被點擊時，按鈕微微向下移動 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);  /* 重新設置陰影效果 */
+}
+
+/* 兌換禮物區塊 */
 #gift-selection {
-    margin-top: 20px;
-    background-color: #ffcccc; /* 粉紅色背景 */
-    padding: 15px;
+    margin-top: 30px;
+    padding: 20px;
+    background-color: transparent;  /* 使背景透明，顯示原本背景 */
     border-radius: 10px;
-    border: 1px solid #ff4d94;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7); /* 增加陰影效果 */
+    text-align: center;  /* 讓文字和內容置中 */
+    color: white;  /* 文字顏色 */
 }
 
+/* 標題樣式 */
+#gift-selection h3 {
+    font-size: 1.8em;
+    color: #ff4d94;  /* 恐怖紅色 */
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);  /* 加入陰影 */
+}
+
+/* 下拉選單樣式 */
 #gift-options {
     padding: 10px;
-    margin-right: 10px;
-    font-size: 1em;
-}
-
-#redeem-gift {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #ff4d94;
-    color: white;
-    border: none;
+    font-size: 1.2em;
+    background-color: #444;  /* 深灰背景 */
+    border: 2px solid #ff4d94;  /* 紅色邊框 */
     border-radius: 5px;
+    color: #ff4d94;  /* 恐怖紅色 */
     cursor: pointer;
+    transition: background-color 0.3s ease, border 0.3s ease;
 }
 
-#redeem-gift:hover {
-    background-color: #ff1f6d; /* 按鈕懸浮變色 */
+/* 下拉選單懸停樣式 */
+#gift-options:hover {
+    background-color: #ff4d94;  /* 當懸停時變紅 */
+    color: #444;  /* 文字顏色變深 */
+    border-color: #990000;  /* 邊框變紅 */
 }
 
-/* 彈出視窗樣式 */
-.scary-popup {
-    position: fixed;
+/* 兌換禮物按鈕樣式 */
+#redeem-gift {
+    margin-top: 20px;
+    padding: 12px 25px;
+    font-size: 1.2em;
+    background-color: #990000;  /* 血紅色背景 */
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    width: 100%;
+    max-width: 300px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);  /* 加入陰影 */
+}
+
+/* 按鈕懸停效果 */
+#redeem-gift:active {
+    background-color: #660000;  /* 當懸停時變暗 */
+    transform: scale(0.98);  /* 按鈕放大效果 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);  /* 重新設置陰影 */
+}
+
+/* 背景音效 */
+audio {
+    visibility: hidden; /* 這樣不會影響播放 */
+}
+
+.ghostcss {
+    display: none;
+    position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    font-size: 24px;
-    text-align: center;
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    width: 1000px;  /* 根據需要調整大小 */
+    height: 1000px; /* 根據需要調整大小 */
+    pointer-events: none;
+    opacity: 0; /* 從隱形開始 */
+    animation: ghost-animation 4s infinite; /* 增加動畫持續時間，讓效果變慢 */
 }
 
-.scary-popup.show {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+.ghostcss.show {
+    display: block; /* 當添加 'show' 類時顯示 */
+    pointer-events: all; /* 允許與元素互動 */
+    opacity: 1; /* 讓鬼影可見 */
 }
 
-/* 文字動畫 */
-.scary-text {
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 50px;
-    color: #971e1e;
-    font-weight: bold;
-    text-shadow: 0 0 20px rgba(255, 0, 0, 0.6), 0 0 30px rgba(255, 0, 0, 0.7);
-    animation: shake 0.2s infinite alternate, glow 1s infinite alternate;
+@keyframes ghost-animation {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0);
+    }
+    25% {
+        opacity: 0.4;
+        transform: translate(-50%, -50%) scale(0.8); /* 稍微放大 */
+    }
+    50% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1); /* 正常大小 */
+    }
+    75% {
+        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(1.1); /* 稍微放大 */
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
 }
 
-@keyframes shake {
-    0% { transform: translateX(-50%) rotate(0deg); }
-    50% { transform: translateX(-50%) rotate(10deg); }
-    100% { transform: translateX(-50%) rotate(-10deg); }
+@keyframes ghost-move {
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.3; }
+    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.9; }  /* 放大，讓鬼影變得更明顯 */
+    100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
 }
 
-@keyframes glow {
-    0% { text-shadow: 0 0 10px rgba(255, 0, 0, 0.6), 0 0 20px rgba(255, 0, 0, 0.7); }
-    50% { text-shadow: 0 0 20px rgba(255, 0, 0, 0.6), 0 0 30px rgba(255, 0, 0, 0.7); }
-    100% { text-shadow: 0 0 10px rgba(255, 0, 0, 0.6), 0 0 20px rgba(255, 0, 0, 0.7); }
-}
 
-/* 背景顏色變換 */
-body.shocked {
-    animation: backgroundChange 1s infinite alternate;
-}
-
-@keyframes backgroundChange {
-    0% { background: linear-gradient(to right, #fc3e3e, #ff6969); }
-    50% { background: linear-gradient(to right, #ffc96b, #eb6060); }
-    100% { background: linear-gradient(to right, #d190d1, #fe60fe); }
+.ghostcss.show {
+    animation: ghost-move 6s ease-in-out infinite;
 }
 
 /* 顯示紀錄區塊 */
 #records {
     margin-top: 20px;
     padding: 20px;
-    background-color: #f9d3e0;  
+    background-color: rgba(249, 211, 224, 0.5);  /* 讓背景顏色變透明，rgba使顏色帶有透明度 */
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* 打卡紀錄項目樣式 */
 .record-item {
-    background-color: #ff4d94;  /* 粉紅色背景 */
+    background-color: rgba(255, 77, 148, 0.7);  /* 讓背景變成透明的粉紅色 */
     color: rgb(225, 155, 177);
     font-size: 1.2em;
     padding: 10px;
@@ -253,21 +322,28 @@ body.shocked {
 
 /* 鼠標懸停時的顏色變化 */
 .record-item:hover {
-    background-color: #ff1f6d;  /* 更加強烈的顏色 */
+    background-color: rgba(255, 31, 109, 0.9);  /* 懸停時的背景透明顏色 */
+    transform: scale(1.05);  /* 鼠標懸停時稍微放大 */
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.4);  /* 強化陰影 */
 }
 
 /* 顯示打卡紀錄時的動畫效果 */
 @keyframes highlightAnimation {
-    0% { background-color: #ff4d94; }
-    50% { background-color: #ff1f6d; }
-    100% { background-color: #ff4d94; }
+    0% { background-color: rgba(255, 77, 148, 0.7); }
+    50% { background-color: rgba(255, 31, 109, 0.9); }
+    100% { background-color: rgba(255, 77, 148, 0.7); }
 }
 
 .record-item {
     animation: highlightAnimation 2s ease-out;  /* 加上動畫效果 */
 }
+
 /* 提示框的基本樣式 */
 .alert {
+    position: fixed;  /* 固定位置 */
+    top: 20px;  /* 距離頁面頂部 20px */
+    left: 50%;  /* 使提示框水平居中 */
+    transform: translateX(-50%);  /* 確保居中 */
     background-color: #f8d7da;
     color: #721c24;
     padding: 15px;
@@ -275,7 +351,6 @@ body.shocked {
     font-size: 16px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     max-width: 400px;
-    margin: 0 auto;
     z-index: 9999;
     transition: opacity 0.5s ease-out;
 }

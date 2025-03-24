@@ -5,14 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>打卡系統</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+     
+    <script src="{{ url_for('static', filename='script.js') }}"  ></script>
 </head>
 <body>
+
+    <!-- 背景圖片 -->
+<div id="background-image" class="background-image"></div>
+
+
+    <!-- 背景音效 -->
+    <audio id="bg-music" loop>
+        <source src="{{ url_for('static', filename='background-sound.mp3') }}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+
     <div class="container">
         <h1>打卡賺小菸系統！</h1>
-        <p>我會一直監督你喔！</p>
-
-        <!-- 監督 GIF 動畫 -->
-        <img src="{{ url_for('static', filename='66.gif') }}" alt="監督動畫" class="animated-image">
 
         <!-- 監督的眼睛 -->
         <div class="eyes">
@@ -23,6 +33,10 @@
                 <div class="pupil"></div>
             </div>
         </div>
+
+        <!-- 監督 GIF 動畫 -->
+        <img src="{{ url_for('static', filename='66.gif') }}" alt="監督動畫" class="animated-image">
+       
 
         <!-- 打卡操作按鈕 -->
         <div class="buttons">
@@ -41,28 +55,23 @@
             </div>
         </div>
 
-        <!-- 顯示載入中提示 -->
-        <div id="loading" style="display: none;">載入中...</div>
+        <!-- 兌換禮物區塊 -->
+        <div id="gift-selection">
+            <h3>選擇要兌換的禮物</h3>
+            <select id="gift-options">
+                <option value="1">一根菸 - 1 積分</option>
+            </select>
+            <button id="redeem-gift">兌換禮物</button>
+        </div>
+
+        <!-- 驚嚇彈出視窗 -->
+        <div id="popscare" class="scary-popup" >
+            <h2>你被監控了！</h2>
+            <p>快點關掉！</p>
+        </div>
+       
+        <!-- 鬼魂動畫 -->
     </div>
-
-    <!-- 兌換禮物區塊 -->
-    <div id="gift-selection">
-        <h3>選擇要兌換的禮物</h3>
-        <select id="gift-options">
-            <option value="1">一根菸 - 1 積分</option>
-        </select>
-        <button id="redeem-gift">兌換禮物</button>
-    </div>
-
-    <!-- 驚嚇彈出視窗 -->
-    <div class="scary-popup" id="scaryPopup">
-        <h2>你被監控了！</h2>
-        <p>快點關掉！</p>
-    </div>
-
-    <!-- 鬼魂動畫 -->
-    <img id="ghost" src="{{ url_for('static', filename='ghost.gif') }}" class="ghost">
-
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <img src="{{ url_for('static', filename='ghost.gif') }}" id="ghostid" alt="ghostid" class="ghostcss"> </img>
 </body>
 </html>
