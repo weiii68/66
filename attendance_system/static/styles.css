@@ -13,16 +13,6 @@
     opacity: 0.6;  /* 讓背景稍微透明，增加文字清晰度 */
 }
 
-@keyframes mist {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 100% 50%; }
-}
-
-.background-image {
-    animation: mist 30s infinite linear;
-}
-
-
 /* 增加背景遮罩 */
 .container {
     position: relative;
@@ -102,27 +92,18 @@ h1 {
 /* 發光效果 */
 @keyframes glowing-text {
     0% {
+        text-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.7), 0 0 60px rgba(0, 0, 0, 0.9), 0 0 80px rgba(0, 0, 0, 1);
         color: #ff1f6d;
-        text-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.7);
-    }
-    25% {
-        color: #ffeb3b;
-        text-shadow: 0 0 20px rgba(255, 255, 0, 0.8), 0 0 30px rgba(255, 255, 0, 0.7);
     }
     50% {
-        color: #4caf50;
-        text-shadow: 0 0 20px rgba(0, 255, 0, 0.8), 0 0 30px rgba(0, 255, 0, 0.7);
-    }
-    75% {
-        color: #ff5722;
-        text-shadow: 0 0 20px rgba(255, 87, 34, 0.8), 0 0 30px rgba(255, 87, 34, 0.7);
+        text-shadow: 0 0 30px rgba(255, 0, 0, 1), 0 0 50px rgba(255, 0, 0, 0.9), 0 0 70px rgba(0, 0, 0, 1), 0 0 90px rgba(0, 0, 0, 1);
+        color: #ff0000;
     }
     100% {
+        text-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.7), 0 0 60px rgba(0, 0, 0, 0.9), 0 0 80px rgba(0, 0, 0, 1);
         color: #ff1f6d;
-        text-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.7);
     }
 }
-
 
 /* 顫抖效果 */
 @keyframes shake {
@@ -166,11 +147,10 @@ h1 {
 }
 
 .buttons button:hover {
-    transform: translateY(-7px) scale(1.05); /* 微微放大和上移 */
-    box-shadow: 0 8px 20px rgba(255, 0, 0, 0.7);
-    animation: shake 0.2s ease; /* 點擊時輕微抖動 */
+    background: linear-gradient(135deg, #990000, #ff1f6d);  /* 懸停時改變漸層顏色 */
+    transform: translateY(-7px);  /* 當懸停時，按鈕輕微向上移動 */
+    box-shadow: 0 8px 20px rgba(255, 0, 0, 0.7);  /* 懸停時加強陰影效果 */
 }
-
 
 .buttons button:active {
     transform: translateY(2px);  /* 當按鈕被點擊時，按鈕微微向下移動 */
@@ -287,17 +267,6 @@ audio {
     }
 }
 
-@keyframes ghost-move {
-    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.3; }
-    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.9; }  /* 放大，讓鬼影變得更明顯 */
-    100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
-}
-
-
-.ghostcss.show {
-    animation: ghost-move 6s ease-in-out infinite;
-}
-
 /* 顯示紀錄區塊 */
 #records {
     margin-top: 20px;
@@ -376,4 +345,100 @@ audio {
 @keyframes fadeOut {
     from { opacity: 1; }
     to { opacity: 0; }
+}
+
+/* 血滴動畫效果 */
+@keyframes fall {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(var(--fall-distance)); /* 隨機掉落距離 */
+    }
+    100% {
+        transform: translateY(var(--fall-distance)); /* 血滴最終落地 */
+        opacity: 0; /* 隨著時間逐漸消失 */
+    }
+}
+
+@keyframes shrink {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0.5); /* 血滴逐漸縮小 */
+    }
+}
+
+/* 血漬擴散效果 */
+@keyframes spread {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0.3; /* 隨著擴散，顏色變淡 */
+    }
+}
+
+/* 血滴樣式 */
+.blood-drip {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.8;
+    pointer-events: none;  /* 讓血滴不會干擾到點擊事件 */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* 添加陰影讓血滴更立體 */
+    animation: fall 3s ease-in forwards, shrink 1.5s ease-out forwards, spread 2s ease-out forwards;
+}
+
+/* 血液流動的動畫 */
+@keyframes flow {
+    0% {
+        transform: translateY(0); /* 開始位置 */
+        opacity: 1;  /* 完全不透明 */
+    }
+    100% {
+        transform: translateY(100vh); /* 從頁面頂部流到底部 */
+        opacity: 0;  /* 隨著流動逐漸消失 */
+    }
+}
+
+/* 血液流動樣式 */
+.blood-stream {
+    position: absolute;
+    width: 5px; /* 細長的血流效果 */
+    border-radius: 50%;
+    height: 20px;
+    opacity: 0.8;
+    pointer-events: none;  /* 讓血流不會干擾到點擊事件 */
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); /* 添加陰影讓血滴更立體 */
+    transform: translateY(-20px); /* 初始位置在頁面上方 */
+}
+
+/* 增加血液的顏色漸變，使其更真實 */
+.blood-stream {
+    background: radial-gradient(circle, rgba(200, 0, 0, 0.8), rgba(255, 0, 0, 0.6));
+}
+
+.blood-hand {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background-image: url('/static/blood-handprint.png'); /* 替換為你的圖片路徑 */
+    background-size: cover;
+    pointer-events: none;
+    z-index: 9999;
+    animation: bloodHandPrintAnimation 2s ease-out forwards;
+}
+
+@keyframes bloodHandPrintAnimation {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.5); /* 放大效果 */
+    }
 }
